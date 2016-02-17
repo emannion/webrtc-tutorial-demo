@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebRTC Tutorial Demo</title>  
+  
+  <style type="text/css"> 
+    h1, h2, h3 {
+      background: rgb(238, 238, 238);
+      border-bottom-width: 0px;
+      display: block;
+      margin-top: 0;
+      padding: .2em;
+      text-align: center;
+    }
+    .top-div { 
+      width: 98%; 
+      height: 50px; 
+      margin: 0 auto;
+      margin-bottom: 14px;
+    }      
+    .center-div { 
+      width: 99%; 
+      height: 400px; 
+      margin: 0 auto;
+      margin-bottom: 3px;
+    }
+    .div.left {
+      width: 27%; 
+      height: 400px; 
+      float: left; 
+    } 
+    .div.content { 
+      width: 42%; 
+      height: 400px; 
+      float: left; 
+      text-align: center;
+      vertical-align: middle;
+      line-height: 100px;
+    } 
+    .content-title-span {
+      width: 90%;
+      margin-top: 20px;
+      font-weight: bold;
+      display: inline-block;
+      vertical-align: top;
+      line-height: normal;   
+    }
+    .content-span {
+      width: 90%;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: normal;
+      font-size: 16px;
+    }
+    .div.right { 
+      width: 31%; 
+      height: 400px; 
+      float: right; 
+    } 
+    .bottom-div { 
+      width: 98%; 
+      height: 70px; 
+      margin: 0 auto; 
+      margin-bottom: 3px;
+      border:1px solid #333; 
+    }
+    .left-video {
+      width: 90%;
+      height: 210px; 
+      border: 1px solid black;
+      float: left;
+      visibility: hidden;
+    }
+    .right-video {
+      width: 90%;
+      height:260px; 
+      border:1px solid black;
+      float: right;
+      visibility:hidden;
+    }
+    .buttons-left-section {
+      margin-top: 10px;
+      float:left;
+      visibility:hidden;
+    }
+    .buttons-right-section {
+      margin-top: 10px;
+      float:right;
+      margin-left: 15px;
+      visibility:hidden;
+    }
+    .step-button {
+      margin-left: 25px;
+      top: 20%;
+      bottom: 15%;
+      position: relative;
+      font-size: 200%;
+    }
+    .footer-class {
+      height: 500px;
+      width: 100%;
+      font-size: 16px;
+    }
+  </style> 
+  
+  </head> 
+  
+  <body> 
+    <div class="top-div">
+      <h1>WebRTC Audio \ Video</h1>
+    </div>
+    <div class="center-div"> 
+      <div class="div left"> 
+        <h3> Local Video </h3>
+        <video id="localvideo" class="left-video" autoplay controls></video>
+        <div id="leftButtons" class="buttons-left-section">
+          <button id="localbutton" type="button">Start local media</button>
+        </div>
+      </div> 
+      <div id="demodiv" class="div content"> 
+          <span id="demotitlespan" class="content-title-span"></span>
+          <span id="demospan" class="content-span"></span>
+      </div> 
+      <div class="div right"> 
+        <h3> Remote Video </h3>
+        <video id="remotevideo" class="right-video" autoplay controls></video>
+        <div id="rightButtons" class="buttons-right-section">
+          <button id="remotebutton" type="button">Place Call</button>
+        </div>
+      </div> 
+    </div> 
+    <div class="div bottom-div">
+        <button id="nextbutton" class="step-button" type="button">Start</button>
+    </div>
+    <div class="div bottom-footer">
+        <textarea id="footer" class="footer-class"></textarea>
+    </div>
+  </body>
+
+</html>
+
+<script>
+      
+  var demoTitleSpan = document.getElementById('demotitlespan');
+  var demoSpan = document.getElementById('demospan');
+  nextButton = document.getElementById("nextbutton");
+  nextButton.addEventListener("click", step1);
+  localButton = document.getElementById("localbutton");
+  remoteButton = document.getElementById("remotebutton");
+  localButton.addEventListener("click", startMedia);
+  footerText = document.getElementById("footer");
+  footerText.value = "";
+ 
+  ///////////////////////// Demo Section //////////////////////////////
+ 
+  function step(from, to) {
+      document.getElementById("nextbutton").removeEventListener("click", from);
+      document.getElementById("nextbutton").addEventListener("click", to);
+  }
+  
+  function step1() {
+      demoTitleSpan.textContent = "<---  Add local HTML video element";
+      nextButton.textContent = "Next"
+      var text = "<video class=\"local-video\" id=\"localvideo\" autoplay controls></video>";
+      demoSpan.textContent = text; 
+      document.getElementById('localvideo').style.visibility = 'visible';
+      step(step1, step2);
+  }
+ 
+   function step2() {
+      demoTitleSpan.textContent = "Add remote HTML video element  --->";
+      nextButton.textContent = "Next"
+      var text = "<video class=\"remote-video\" id=\"remotevideo\" autoplay controls></video>";
+      demoSpan.textContent = text; 
+      document.getElementById('remotevideo').style.visibility = 'visible';  
+      step(step2, step3);
+  }
+  
+  function step3() {
+      demoTitleSpan.textContent = "Add HTML button";
+      var text = "<button type=\"button\" onclick=\"startMedia();\">Start local media</button> \n\r"; 
+      demoSpan.textContent = text;
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      document.getElementById('leftButtons').style.visibility = 'visible';
+      localButton.disabled = 'disabled';
+      step(step3, step4);
+  }
+  
+  function step4() {
+      demoTitleSpan.textContent = "Get media stream";
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';
+      demoSpan.textContent = "// start camera and mic, returns a media stream in onSuccess callback \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";   
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+      localButton.disabled = '';
+      step(step4, step5);
+  }
+  
+  function step5() {
+      demoTitleSpan.textContent = "Start Media";
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';
+      demoSpan.textContent = "// start camera and mic, returns a media stream in onSuccess callback \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";  
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+      
+      // check is playing
+      if (!localStream) {
+          startMedia();
+          step(step5, step6);
+      } else {
+          step6();
+      }
+  }
+  
+  function step6() {  
+      demoTitleSpan.textContent = "Add PeerConnection";
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';
+      demoSpan.textContent = "// create peer connection object peer all communication operations \n\r pc = RTCPeerConnection(pc_config);\n\r\n\r // add stream from getUserMedia to peer connection \n\r pc.addStream(localStream);\n\r";
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      step(step6, step7);
+  }
+  
+  function step7() {  
+      demoTitleSpan.textContent = "Create SDP Offer";
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';
+      demoSpan.textContent = "// createOffer returns an sdp string to send to the other peer \n\r pc.createOffer(onSuccess, onError, mediaConstraints); \n\r\n\ function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp); \n\r\n\r\z\z  // send offer to other peer \n\r\z\z websocket.send(sdp);\n\r}";
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+      step(step7, step8);
+  }  
+  
+  function step8() {  
+      demoTitleSpan.textContent = "Offer message arrives at the other peer  --->";
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';  
+      demoSpan.textContent = "// assume GUM stream and peer connection objects exists \n\r // set offer into peer connection \n\r pc.setRemoteDescription(sdp, onSuccess, onError);  \n\r\n\ function onSuccess(sdp) {  \n\r\n\r\z\z // generate sdp answer  \n\r\z\z pc.createAnswer(onSuccess, onError, mediaConstraints); \n\r }";
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+      step(step8, step9);
+  }  
+  
+  function step9() {
+      demoTitleSpan.textContent = "Other peer generates its sdp answer  --->";
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';    
+      demoSpan.textContent = "// answer sdp successfully generated from createAnswer \n\r function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp);  \n\r\n\r\z\z // send answer back to caller \n\r\z\z socket.send(sdp); \n\r }";     
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+      step(step9, step10);
+  }    
+
+  function step10() {
+      demoTitleSpan.textContent = "<---  send sdp answer message back to caller";
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';    
+      demoSpan.textContent = "// set answer into peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r  function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z <--- audio and video should flow now, hit Place Call --->";      
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
+      demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+      document.getElementById('rightButtons').style.visibility = 'visible';
+      remoteButton.addEventListener("click", play);
+      step(step10, step11);
+  }   
+  
+  function step11() {
+      var theText = document.getElementById('demospan');
+      theText.style.textAlign = 'left';    
+      play();
+  }   
+
+///////////////////////// WebRTC API Source Code ////////////////////////////////////////////////////////////////
+
+  var localvid = document.getElementById('localvideo');
+  var remotevid = document.getElementById('remotevideo');
+  var localStream = null;
+  var pc1 = null;
+  var pc2 = null;
+  var mediaConstraints = {'mandatory': {
+                          'offerToReceiveAudio':true, 
+                          'offerToReceiveVideo':true }};
+  
+  function startMedia() {
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    window.URL = window.URL || window.webkitURL;
+    navigator.getUserMedia({video: true, audio: true}, successCallback, errorCallback);
+    localButton.textContent = "Stop local media";
+    localButton.removeEventListener("click", startMedia);
+    localButton.addEventListener("click", stopMedia);
+  }
+  
+  // stop local video
+  function stopMedia() {
+    if (localvid.mozSrcObject) {
+      localvid.mozSrcObject.stop();
+      localvid.src = null;
+    } else {
+      localvid.src = "";
+      localStream.getVideoTracks()[0].stop();
+    }
+    localButton.textContent = "Start local media";
+    localButton.removeEventListener("click", stopMedia);
+    localButton.addEventListener("click", startMedia);
+  }
+
+  function successCallback(stream) {
+    localStream = stream;
+    if (localvid.mozSrcObject) {
+      localvid.mozSrcObject = stream;
+      localvid.play();
+    } else {
+      try {
+        localvid.src = window.URL.createObjectURL(stream);
+        localvid.play();
+      } catch(e) {
+        console.log("Error setting video src: ", e);
+      }
+    }
+  }
+
+  function errorCallback(error) {
+    console.error('An error occurred: [CODE ' + error.code + ']');
+    return;
+  }
+  
+  function play() {  
+    createPeerConnection1();
+    pc1.createOffer(setLocalDescAndSendMessageOffer, onCreateOfferFailed, mediaConstraints);
+  }
+  
+  function setLocalDescAndSendMessageOffer(sessionDescription) {
+
+    pc1.setLocalDescription(sessionDescription);
+
+    console.log("Sending: SDP");
+    console.log(sessionDescription);
+    
+    // If SDP has H264 then use that codec instead of VP8
+    var n = sessionDescription.sdp.search("H264/90000");
+    if (n != -1) {
+      updated_sdp = sessionDescription.sdp.replace("m=video 9 UDP/TLS/RTP/SAVPF 120 126 97\r\n","m=video 9 UDP/TLS/RTP/SAVPF 126 120 97\r\n");
+      sessionDescription.sdp = updated_sdp;
+    }
+    
+    footerText.value += "\nSDP Offer\n\n";
+    footerText.value += sessionDescription.sdp;
+    
+    createPeerConnection2();
+
+    console.log('Creating remote session description...' );
+      
+    var RTCSessionDescription = window.mozRTCSessionDescription || window.webkitRTCSessionDescription || window.RTCSessionDescription;
+    pc2.setRemoteDescription(new RTCSessionDescription(sessionDescription), function() {
+        console.log('Sending answer...');
+        pc2.createAnswer(setLocalDescAndSendMessageAnswer, onCreateAnswerFailed, mediaConstraints);
+    }, function() {  
+        console.log('Error setting remote description');   
+    });
+  }
+  
+  function setLocalDescAndSendMessageAnswer(sessionDescription) {
+      
+    pc2.setLocalDescription(sessionDescription);
+     
+    console.log("Sending: SDP");
+    console.log(sessionDescription);
+    footerText.value += "\n\nSDP Answer\n\n";
+    footerText.value += sessionDescription.sdp;
+        
+    var RTCSessionDescription = window.mozRTCSessionDescription || window.webkitRTCSessionDescription || window.RTCSessionDescription;
+    pc1.setRemoteDescription(new RTCSessionDescription(sessionDescription));
+  }
+
+  function onCreateOfferFailed() {
+    console.log("Create Offer failed");
+  }
+  
+  function onCreateAnswerFailed() {
+    console.log("Create Answer failed");
+  }
+
+  function createPeerConnection1() {
+    console.log("Creating local peer connection");
+    RTCPeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+    var pc_config = {"iceServers":[]};
+    try {
+      pc1 = new RTCPeerConnection(pc_config);
+    } catch (e) {
+      console.log("Failed to create PeerConnection, exception: " + e.message);
+    }
+    // send any ice candidates to the other peer
+    pc1.onicecandidate = function (evt) {
+      if (evt.candidate) {
+        console.log('Sending ICE candidate...');
+        console.log(evt.candidate);
+        
+        footerText.value += "\n" + evt.candidate.candidate;
+
+        console.log('Received ICE candidate...');
+        var RTCIceCandidate = window.mozRTCIceCandidate || window.webkitRTCIceCandidate || window.RTCIceCandidate;
+        pc2.addIceCandidate(evt.candidate);
+      } else {
+        console.log("End of candidates.");
+      }
+    };
+    console.log('Adding local stream...');
+    pc1.addStream(localStream);
+
+    pc1.addEventListener("addstream", onRemoteStreamAdded, false);
+    pc1.addEventListener("removestream", onRemoteStreamRemoved, false);
+
+    // when remote adds a stream, hand it on to the local video element
+    function onRemoteStreamAdded(evt) {
+      console.log("Added remote stream");
+      remotevid.src = window.URL.createObjectURL(evt.stream);
+    }
+
+    // when remote removes a stream, remove it from the local video element
+    function onRemoteStreamRemoved(evt) {
+      console.log("Remove remote stream");
+      remotevid.src = "";
+    }
+  }
+  
+  function createPeerConnection2() {
+    console.log("Creating peer connection");
+    RTCPeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
+    var pc_config = {"iceServers":[]};
+    try {
+      pc2 = new RTCPeerConnection(pc_config);
+    } catch (e) {
+      console.log("Failed to create PeerConnection, exception: " + e.message);
+    }
+    // send any ice candidates to the other peer
+    pc2.onicecandidate = function (evt) {
+      if (evt.candidate) {
+        console.log('Sending ICE candidate...');
+        console.log(evt.candidate);
+        
+        footerText.value += "\n" + evt.candidate.candidate;
+            
+        console.log('Received ICE candidate...');
+        var RTCIceCandidate = window.mozRTCIceCandidate || window.webkitRTCIceCandidate || window.RTCIceCandidate;
+        
+        pc1.addIceCandidate(evt.candidate);
+      } else {
+        console.log("End of candidates.");
+      }
+    };
+    console.log('Adding local stream...');
+    pc2.addStream(localStream);
+
+    pc2.addEventListener("addstream", onRemoteStreamAdded, false);
+    pc2.addEventListener("removestream", onRemoteStreamRemoved, false);
+
+    // when remote adds a stream, hand it on to the local video element
+    function onRemoteStreamAdded(evt) {
+      console.log("Added remote stream");
+      remotevid.src = window.URL.createObjectURL(evt.stream);
+    }
+
+    // when remote removes a stream, remove it from the local video element
+    function onRemoteStreamRemoved(evt) {
+      console.log("Remove remote stream");
+      remotevid.src = "";
+    }
+  }
+  
+</script>
+
+
