@@ -425,7 +425,7 @@
   }
   
   function createPeerConnection2() {
-    console.log("Creating peer connection");
+    console.log("Creating remote peer connection");
     RTCPeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
     var pc_config = {"iceServers":[]};
     try {
@@ -449,7 +449,9 @@
         console.log("End of candidates.");
       }
     };
-    console.log('Adding local stream...');
+    
+    //  here instead of a stream from the remote device we reuse the local stream instead
+    console.log('Adding local stream.....reusing local stream for remote stream');
     pc2.addStream(localStream);
 
     pc2.addEventListener("addstream", onRemoteStreamAdded, false);
