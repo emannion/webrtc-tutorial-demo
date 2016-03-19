@@ -354,7 +354,7 @@
     var RTCSessionDescription = window.mozRTCSessionDescription || window.webkitRTCSessionDescription || window.RTCSessionDescription;
     pc2.setRemoteDescription(new RTCSessionDescription(sessionDescription), function() {
         console.log('Sending answer...');
-        pc2.createAnswer(setLocalDescAndSendMessageAnswer, onCreateAnswerFailed, mediaConstraints);
+        pc2.createAnswer(setLocalDescAndSendMessageAnswer, onCreateAnswerFailed);
     }, function() {  
         console.log('Error setting remote description');   
     });
