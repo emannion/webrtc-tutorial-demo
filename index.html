@@ -218,7 +218,7 @@
       demoTitleSpan.textContent = "Add PeerConnection";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
-      demoSpan.textContent = "// create peer connection object peer all communication operations \n\r pc = RTCPeerConnection(pc_config);\n\r\n\r // add stream from getUserMedia to peer connection \n\r pc.addStream(localStream);\n\r";
+      demoSpan.textContent = "// create a peer connection object for all peer communication operations \n\r pc = RTCPeerConnection(pc_config);\n\r\n\r // add stream from getUserMedia to peer connection object \n\r pc.addStream(localStream);\n\r";
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       step(step6, step7);
   }
@@ -227,7 +227,7 @@
       demoTitleSpan.textContent = "Create SDP Offer";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
-      demoSpan.textContent = "// createOffer returns an sdp string to send to the other peer \n\r pc.createOffer(onSuccess, onError, mediaConstraints); \n\r\n\ function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp); \n\r\n\r\z\z  // send offer to other peer \n\r\z\z websocket.send(sdp);\n\r}";
+      demoSpan.textContent = "// createOffer returns an sdp string to send to the other peer describing my media session \n\r pc.createOffer(onSuccess, onError, mediaConstraints); \n\r\n\ function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp); \n\r\n\r\z\z  // send offer to other peer \n\r\z\z websocket.send(sdp);\n\r}";
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       step(step7, step8);
@@ -237,7 +237,7 @@
       demoTitleSpan.textContent = "Offer message arrives at the other peer  --->";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';  
-      demoSpan.textContent = "// assume GUM stream and peer connection objects exists \n\r // set offer into peer connection \n\r pc.setRemoteDescription(sdp, onSuccess, onError);  \n\r\n\ function onSuccess(sdp) {  \n\r\n\r\z\z // generate sdp answer  \n\r\z\z pc.createAnswer(onSuccess, onError, mediaConstraints); \n\r }";
+      demoSpan.textContent = "// assume GUM stream and peer connection objects exists \n\r // set offer into remote peer connection \n\r pc.setRemoteDescription(sdp, onSuccess, onError);  \n\r\n\ function onSuccess(sdp) {  \n\r\n\r\z\z // generate sdp answer  \n\r\z\z pc.createAnswer(onSuccess, onError, mediaConstraints); \n\r }";
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       step(step8, step9);
@@ -247,7 +247,7 @@
       demoTitleSpan.textContent = "Other peer generates its sdp answer  --->";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';    
-      demoSpan.textContent = "// answer sdp successfully generated from createAnswer \n\r function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp);  \n\r\n\r\z\z // send answer back to caller \n\r\z\z socket.send(sdp); \n\r }";     
+      demoSpan.textContent = "// answer sdp successfully generated from createAnswer in onSuccess callback \n\r function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp);  \n\r\n\r\z\z // send answer back to caller \n\r\z\z socket.send(sdp); \n\r }";     
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       step(step9, step10);
@@ -257,7 +257,7 @@
       demoTitleSpan.textContent = "<---  send sdp answer message back to caller";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';    
-      demoSpan.textContent = "// set answer into peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r  function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z <--- audio and video should flow now, hit Place Call --->";      
+      demoSpan.textContent = "// set answer into local peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r  function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z <--- audio and video should flow now, hit Place Call --->";      
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       document.getElementById('rightButtons').style.visibility = 'visible';
