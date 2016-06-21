@@ -190,7 +190,7 @@
       demoTitleSpan.textContent = "Get media stream";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
-      demoSpan.textContent = "// start camera and mic, returns a media stream in onSuccess callback \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";   
+      demoSpan.textContent = "// start camera and mic \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r // returns a media stream in the onSuccess callback \n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";   
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       localButton.disabled = '';
@@ -201,7 +201,7 @@
       demoTitleSpan.textContent = "Start Media";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
-      demoSpan.textContent = "// start camera and mic, returns a media stream in onSuccess callback \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";  
+      demoSpan.textContent = "// start camera and mic \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r // returns a media stream in the onSuccess callback \n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";  
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       
@@ -227,7 +227,7 @@
       demoTitleSpan.textContent = "Create SDP Offer";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
-      demoSpan.textContent = "// createOffer returns an sdp string to send to the other peer describing my media session \n\r pc.createOffer(onSuccess, onError, mediaConstraints); \n\r\n\ function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp); \n\r\n\r\z\z  // send offer to other peer \n\r\z\z websocket.send(sdp);\n\r}";
+      demoSpan.textContent = "// createOffer returns an sdp string to send to the other peer describing media session \n\r pc.createOffer(onSuccess, onError, mediaConstraints); \n\r\n\ function onSuccess(sdp) { \n\r\n\r\z\z // set local sdp into browser to process \n\r\z\z pc.setLocalDescription(sdp); \n\r\n\r\z\z  // send offer to other peer \n\r\z\z websocket.send(sdp);\n\r}";
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       step(step7, step8);
