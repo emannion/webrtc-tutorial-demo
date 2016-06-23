@@ -107,11 +107,17 @@
   
   <body> 
     <div class="top-div">
-      <h1>WebRTC Audio \ Video</h1>
+      <h1>WebRTC Audio \ Video & Share</h1>
     </div>
     <div class="center-div"> 
       <div class="div left"> 
         <h3> Local Video </h3>
+          <div class="radio">
+            <input id="audiovideo" type="radio" name="media" onclick="handleRadioClick(this);" value="audiovideo" checked="checked">
+            <label for="audiovideo">Audio\Video</label>
+            <input id="share" type="radio" name="media" onclick="handleRadioClick(this);" value="vp8">
+            <label for="share">Window share</label><br><br>
+          </div>
         <video id="localvideo" class="left-video" autoplay controls></video>
         <div id="leftButtons" class="buttons-left-section">
           <button id="localbutton" type="button">Start local media</button>
@@ -150,6 +156,15 @@
   localButton.addEventListener("click", startMedia);
   footerText = document.getElementById("footer");
   footerText.value = "";
+  var demoAudioVideo = document.getElementById('audiovideo').checked;
+  
+  function handleRadioClick(myRadio) {
+    if (myRadio.value == 'audiovideo') {
+      demoAudioVideo = true;
+    } else {
+      demoAudioVideo = false;
+    }
+  }
  
   ///////////////////////// Demo Section //////////////////////////////
  
@@ -190,7 +205,13 @@
       demoTitleSpan.textContent = "Get media stream";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
-      demoSpan.textContent = "// start camera and mic \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r // returns a media stream in the onSuccess callback \n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";   
+      
+      if (demoAudioVideo) {          
+          demoSpan.textContent = "// set up constraints  \r\n var constraints = { \r\n\z\z audio : 'true', \r\n\z\z video : 'true' \n\r }; \n\r\n\r // start camera and mic \n\r navigator.mediaDevices.getUserMedia(constraints) \n\r\z\z .then(function(stream) {  \n\r\z\z\z\z  localStream = stream;  \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream); \n\r\z\z\z\z localvid.play(); \n\r\z\z } \n\r } ";
+      }
+      else {
+          demoSpan.textContent = "// set up constraints \n\r var screen_constraints = {  \n\r\z\z video: { \n\r\z\z\z\z  mediaSource: 'window' \n\r\z\z }  \n\r };  \n\r\n\r // start screen capture \n\r navigator.mediaDevices.getUserMedia(screen_constraints) \n\r\z\z .then(function(stream) { \n\r\z\z\z\z  localStream = stream; \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream);  \n\r\z\z\z\z localvid.play();  \n\r\z\z  }  \n\r }) ";   
+      }
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       localButton.disabled = '';
@@ -201,7 +222,14 @@
       demoTitleSpan.textContent = "Start Media";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
-      demoSpan.textContent = "// start camera and mic \n\r navigator.getUserMedia({video: true, audio: true}, onSuccess, onError); \n\r\n\r // returns a media stream in the onSuccess callback \n\r function onSuccess(stream) { \n\r\n\r\z\z // attach stream to HTML video element \n\r\z\z localvideo.src = window.URL.createObjectURL(stream); \n\r }";  
+      
+      if (demoAudioVideo) {          
+          demoSpan.textContent = "// set up constraints \r\n var constraints = { \r\n\z\z audio : 'true', \r\n\z\z video : 'true' \n\r}; \n\r\n\r // start camera and mic \n\r navigator.mediaDevices.getUserMedia(constraints) \n\r\z\z .then(function(stream) {  \n\r\z\z\z\z  localStream = stream;  \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream); \n\r\z\z\z\z localvid.play(); \n\r\z\z } \n\r } ";
+      }
+      else {
+          demoSpan.textContent = "// set up constraints \n\r var screen_constraints = {  \n\r\z\z video: { \n\r\z\z\z\z  mediaSource: 'window' \n\r\z\z }  \n\r };  \n\r\n\r // start screen capture \n\r navigator.mediaDevices.getUserMedia(screen_constraints) \n\r\z\z .then(function(stream) { \n\r\z\z\z\z  localStream = stream; \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream);  \n\r\z\z\z\z localvid.play();  \n\r\z\z  }  \n\r }) ";   
+      }
+      
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       
@@ -281,14 +309,104 @@
   var mediaConstraints = {'mandatory': {
                           'offerToReceiveAudio':true, 
                           'offerToReceiveVideo':true }};
+    // Detect browser
+  var userAgent = navigator.userAgent.toLowerCase();
+  var browserM = userAgent.match(/(opera|chrome|safari|firefox|msie)[\/\s]*([\d\.]+)/);
+  var browser = navigator.appName.toLowerCase();
+  if (browserM)
+    browser = browserM[1];
+    var isChrome = (browser === "chrome");
+    var isFirefox = (browser === "firefox");
+
+  var screen_constraints = null;
+
+  if (isChrome) {
+    screen_constraints = {
+      video: {
+        mandatory: {
+          chromeMediaSource: 'screen',
+          maxWidth: screen.width,
+          maxHeight: screen.height,
+          minFrameRate: 1,
+          maxFrameRate: 5
+        },
+        optional: []
+    }};
+  } else {
+    screen_constraints = {
+      video: {
+        mediaSource: "window"
+      }
+    };
+  }
   
   function startMedia() {
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia || navigator.msGetUserMedia;
-    window.URL = window.URL || window.webkitURL;
-    navigator.getUserMedia({video: true, audio: true}, successCallback, errorCallback);
-    localButton.textContent = "Stop local media";
-    localButton.removeEventListener("click", startMedia);
-    localButton.addEventListener("click", stopMedia);
+             
+    if (demoAudioVideo) {
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || window.navigator.mozGetUserMedia || navigator.msGetUserMedia;
+      window.URL = window.URL || window.webkitURL;
+      navigator.getUserMedia({video: true, audio: true}, successCallback, errorCallback);
+    } else {
+      var promisifiedOldGUM = function(constraints, successCallback, errorCallback) {
+
+        // First get ahold of getUserMedia, if present
+        var getUserMedia = (navigator.getUserMedia ||
+                            navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia);
+
+        // Some browsers just don't implement it - return a rejected promise with an error
+        // to keep a consistent interface
+        if(!getUserMedia) {
+          return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+        }
+
+        // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
+        return new Promise(function(successCallback, errorCallback) {
+          getUserMedia.call(navigator, constraints, successCallback, errorCallback);
+        });
+      };
+
+      // Older browsers might not implement mediaDevices at all, so we set an empty object first
+      if(navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+      }
+
+      // Some browsers partially implement mediaDevices. We can't just assign an object
+      // with getUserMedia as it would overwrite existing properties.
+      // Here, we will just add the getUserMedia property if it's missing.
+      if(navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = promisifiedOldGUM;
+      }
+      
+      navigator.mediaDevices.getUserMedia(screen_constraints)
+        .then(function(stream) {
+            localStream = stream;
+            if (localvid.mozSrcObject) {
+                localvid.mozSrcObject = stream;
+                localvid.play();
+            } else {
+                try {
+                    localvid.src = window.URL.createObjectURL(stream);
+                    localvid.play();
+                } catch(e) {
+                    console.log("Error setting video src: ", e);
+                }
+            }
+        })
+        .catch(function(err) {
+            console.log(err.name + ": " + err.message);
+            if (location.protocol === 'http:') {
+                alert('Please test this WebRTC experiment on HTTPS.');
+            } else {
+                alert('Screen capturing is either denied or not supported. Have you enabled the appropriate flag? see README.md');
+            }
+            console.error(err);
+        });
+      }
+    
+      localButton.textContent = "Stop local media";
+      localButton.removeEventListener("click", startMedia);
+      localButton.addEventListener("click", stopMedia);
   }
   
   // stop local video
