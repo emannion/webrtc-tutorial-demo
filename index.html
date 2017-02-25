@@ -207,7 +207,7 @@
   }
   
   function step4() {
-      demoTitleSpan.textContent = "Get media stream";
+      demoTitleSpan.textContent = "Get media stream using getUserMedia";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';
       
@@ -290,7 +290,7 @@
       demoTitleSpan.textContent = "<---  send sdp answer message back to caller";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';    
-      demoSpan.textContent = "// set answer into local peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r  // if setRemoteDescription is successfull, this callback is called  \n\r function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z <--- WebRTC media should flow now, hit Place Call --->";      
+      demoSpan.textContent = "// set answer into local peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r  // if setRemoteDescription is successfull, this callback is called  \n\r function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z <--- WebRTC media should flow now, hit Place Call or Next --->";      
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       document.getElementById('rightButtons').style.visibility = 'visible';
@@ -303,7 +303,7 @@
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';    
       theText.style.textAlign = 'left';    
-      demoSpan.textContent = "// set answer into local peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r // if setRemoteDescription is successfull, this callback is called  \n\r  function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z <--- WebRTC media flowing now, hit Place Call --->";      
+      demoSpan.textContent = "// set answer into local peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r // if setRemoteDescription is successfull, this callback is called  \n\r  function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z <--- WebRTC media should be flowing now --->";      
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       play();
