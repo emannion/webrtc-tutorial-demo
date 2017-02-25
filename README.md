@@ -1,6 +1,8 @@
 # webrtc-tutorial-demo
 
-Sample WebRTC GetUserMedia and PeerConnection code in a demoable format.  Two JavaScript PeerConnection objects are used in this one page which mimic two browsers in a WebRTC peer to peer audio\video or share session.  Normally this would be done over two browsers with a server component to relay the WebRTC messages across peers.  I do all this in one web app to make this easier to demo.
+Sample WebRTC GetUserMedia and PeerConnection code in a demoable format.  Two JavaScript PeerConnection objects are used in this one page which mimic two browsers in a WebRTC peer to peer audio\video or share session.  
+
+Normally this would be done over two browsers with a server component to relay the WebRTC messages across peers.  I do all this in one web app to make this easier to demo.
 
 This demo is a series of steps which build up both the HTML and JavaScript for a WebRTC Audio and Video or Share PeerConnection demo.  HTML and JavaScript gets displayed on the page as you step through.
 
