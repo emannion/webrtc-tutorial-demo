@@ -213,7 +213,7 @@
       theText.style.textAlign = 'left';
       
       if (demoAudioVideo) {          
-          demoSpan.textContent = "// set up constraints  \r\n var constraints = { \r\n\z\z audio : 'true', \r\n\z\z video : 'true' \n\r }; \n\r\n\r // start camera and mic \n\r navigator.mediaDevices.getUserMedia(constraints) \n\r\z\z .then(function(stream) {  \n\r\z\z\z\z  localStream = stream;  \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream); \n\r\z\z\z\z localvid.play(); \n\r\z\z } \n\r } ";
+          demoSpan.textContent = "\n\r\n\r // start camera and microphone \n\r navigator.mediaDevices.getUserMedia(audio : 'true', video : 'true') \n\r\z\z .then(function(stream) {  \n\r\z\z\z\z  localStream = stream;  \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream); \n\r\z\z\z\z localvid.play(); \n\r\z\z } \n\r } ";
       }
       else {
           demoSpan.textContent = "// set up constraints \n\r var screen_constraints = {  \n\r\z\z video: { \n\r\z\z\z\z  mediaSource: 'window' \n\r\z\z }  \n\r };  \n\r\n\r // start screen capture \n\r navigator.mediaDevices.getUserMedia(screen_constraints) \n\r\z\z .then(function(stream) { \n\r\z\z\z\z  localStream = stream; \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream);  \n\r\z\z\z\z localvid.play();  \n\r\z\z  }  \n\r }) ";   
@@ -230,7 +230,7 @@
       theText.style.textAlign = 'left';
       
       if (demoAudioVideo) {          
-          demoSpan.textContent = "// set up constraints \r\n var constraints = { \r\n\z\z audio : 'true', \r\n\z\z video : 'true' \n\r}; \n\r\n\r // start camera and mic \n\r navigator.mediaDevices.getUserMedia(constraints) \n\r\z\z .then(function(stream) {  \n\r\z\z\z\z  localStream = stream;  \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream); \n\r\z\z\z\z localvid.play(); \n\r\z\z } \n\r } ";
+          demoSpan.textContent = "\n\r\n\r // start camera and microphone \n\r navigator.mediaDevices.getUserMedia(audio : 'true', video : 'true') \n\r\z\z .then(function(stream) {  \n\r\z\z\z\z  localStream = stream;  \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream); \n\r\z\z\z\z localvid.play(); \n\r\z\z } \n\r } ";
       }
       else {
           demoSpan.textContent = "// set up constraints \n\r var screen_constraints = {  \n\r\z\z video: { \n\r\z\z\z\z  mediaSource: 'window' \n\r\z\z }  \n\r };  \n\r\n\r // start screen capture \n\r navigator.mediaDevices.getUserMedia(screen_constraints) \n\r\z\z .then(function(stream) { \n\r\z\z\z\z  localStream = stream; \n\r\z\z\z\z localvid.src = window.URL.createObjectURL(stream);  \n\r\z\z\z\z localvid.play();  \n\r\z\z  }  \n\r }) ";   
