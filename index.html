@@ -20,7 +20,7 @@
     }      
     .center-div { 
       width: 99%; 
-      height: 400px; 
+      height: 450px; 
       margin: 0 auto;
       margin-bottom: 3px;
     }
@@ -291,7 +291,7 @@
       demoTitleSpan.textContent = "<---  send sdp answer message back to caller";
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';    
-      demoSpan.textContent = "// set remote answer into local peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r  // if successfull, this callback is then called  \n\r function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z <--- WebRTC media should flow now, hit Place Call or Next --->";      
+      demoSpan.textContent = "// set remote answer into local peer connection \n\r pc.setRemoteDescription(sdp);  \n\r\n\r  // if successfull, this callback is then called  \n\r function onRemoteStreamAdded(evt) {  \n\r\n\r\z\z\z\z // attach remote stream to remote video window \n\r\r\z\z\z\z  remotevideo.src = window.URL.createObjectURL(evt.stream); \n\r } \n\r\n\r\n\r\n\r\n\r \z\z\z\z <--- Media should flow now, hit Place Call or Next --->";      
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       document.getElementById('rightButtons').style.visibility = 'visible';
