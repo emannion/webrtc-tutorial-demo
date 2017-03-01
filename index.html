@@ -159,6 +159,11 @@
   footerText.value = "";
   var demoAudioVideo = document.getElementById('audiovideo').checked;
   
+  ////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////// Demo Navigation Section //////////////////////////////
+  /////  Te see WebRTC API Source Code jump to next section //////////////////////
+  //////////////////////////////////////////////////////////////////////////////// 
+  
   function handleRadioClick(myRadio) {
     if (myRadio.value == 'audiovideo') {
       demoAudioVideo = true;
@@ -171,9 +176,7 @@
       demoSpan.textContent = "Select Audio\\Video or Window Share then hit Start";
   }
   window.onload = initPage;
- 
-  ///////////////////////// Demo Section //////////////////////////////
- 
+  
   function step(from, to) {
       document.getElementById("nextbutton").removeEventListener("click", from);
       document.getElementById("nextbutton").addEventListener("click", to);
@@ -310,8 +313,10 @@
       play();
   }   
 
-///////////////////////// WebRTC API Source Code ////////////////////////////////////////////////////////////////
-
+  ////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////// WebRTC API Source Code ///////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+  
   var localvid = document.getElementById('localvideo');
   var remotevid = document.getElementById('remotevideo');
   var localStream = null;
@@ -320,7 +325,7 @@
   var mediaConstraints = {'mandatory': {
                           'offerToReceiveAudio':true, 
                           'offerToReceiveVideo':true }};
-    // Detect browser
+  // Detect browser
   var userAgent = navigator.userAgent.toLowerCase();
   var browserM = userAgent.match(/(opera|chrome|safari|firefox|msie)[\/\s]*([\d\.]+)/);
   var browser = navigator.appName.toLowerCase();
@@ -553,6 +558,7 @@
     }
   }
   
+  // Normal WebRTC apps do not have both local and remote peers in same app, but this is a demo
   function createPeerConnection2() {
     console.log("Creating remote peer connection");
     RTCPeerConnection = window.webkitRTCPeerConnection || window.mozRTCPeerConnection;
@@ -579,7 +585,7 @@
       }
     };
     
-    //  here instead of a stream from the remote device we reuse the local stream instead
+    // here instead of a stream from the remote device we reuse the local stream instead
     console.log('Adding local stream.....reusing local stream for remote stream');
     pc2.addStream(localStream);
 
