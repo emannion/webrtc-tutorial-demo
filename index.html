@@ -307,11 +307,17 @@
       var theText = document.getElementById('demospan');
       theText.style.textAlign = 'left';    
       theText.style.textAlign = 'left';    
-      demoSpan.textContent = "\n\r\n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z\z\z <--- WebRTC media should be flowing now --->";      
+      demoSpan.textContent = "\n\r\n\r\n\r\n\r\n\r\n\r \z\z\z\z\z\z\z\z\z\z <-- WebRTC media should be flowing now -->";      
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\n\r?/g, '<br />');
       demoSpan.innerHTML = demoSpan.innerHTML.replace(/\z\z?/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
       play();
-  }   
+      nextButton.textContent = "Go to start";
+      step(step11, finalStep);
+  }
+
+  function finalStep() {
+      window.location.reload();
+  }      
 
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// WebRTC API Source Code ///////////////////////////////
