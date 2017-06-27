@@ -15,3 +15,6 @@ If you want to use window share you need to do these steps
 - (Only for Chrome) start chrome browser with flag --enable-usermedia-screen-capturing
 - (Only for Firefox) open about:config create  media.getusermedia.screensharing.enabled and set to true
 - (Only for Firefox) open about:config in media.getusermedia.screensharing.allowed_domains append the IP address of your web server
+
+Here it is:
+https://webrtc-tutorial.000webhostapp.com/
